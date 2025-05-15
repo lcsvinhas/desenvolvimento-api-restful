@@ -59,7 +59,7 @@ public class AlunoController {
     public Aluno atualizar(@PathVariable Long matricula, @RequestBody Aluno aluno) {
         for (Aluno a : alunos) {
             if (a.getMatricula().equals(matricula)) {
-                a.setMatricula(matricula);
+                aluno.setMatricula(matricula);
                 alunos.set(alunos.indexOf(a), aluno);
                 return a;
             }
