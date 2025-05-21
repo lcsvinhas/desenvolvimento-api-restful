@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Entity
 public class Manutencao {
@@ -19,6 +20,18 @@ public class Manutencao {
     @ManyToOne
     @JoinColumn(name = "id_veiculo")
     private Veiculo veiculo;
+
+    @ManyToMany
+    @JoinTable(
+            name = "manutencao_servico",
+            joinColumns = @JoinColumn(name = "id_manutencao"),
+            inverseJoinColumns = @JoinColumn(name = "id_servico")
+    )
+    private List<Servico> servicos;
+
+    public List<Servico> getServicos() {
+        return servicos;
+    }
 
     public Long getId() {
         return id;
