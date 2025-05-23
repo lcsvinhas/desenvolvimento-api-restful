@@ -1,23 +1,27 @@
 package org.serratec.backend.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 public class Usuario {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @NotBlank
     private String nome;
-    @Email
     private String email;
-    @NotBlank
     private String senha;
+
+    @OneToMany(mappedBy = "id.usuario")
+    private Set<UsuarioPerfil> usuarioPerfis = new HashSet<>();
+
+    public Set<UsuarioPerfil> getUsuarioPerfis() {
+        return usuarioPerfis;
+    }
 
     public Long getId() {
         return id;
