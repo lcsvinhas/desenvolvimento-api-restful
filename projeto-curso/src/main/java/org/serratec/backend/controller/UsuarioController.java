@@ -1,5 +1,10 @@
 package org.serratec.backend.controller;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.serratec.backend.dto.UsuarioRequestDTO;
 import org.serratec.backend.dto.UsuarioResponseDTO;
 import org.serratec.backend.entity.Usuario;
@@ -18,36 +23,30 @@ public class UsuarioController {
     @Autowired
     private UsuarioService service;
 
+    @Operation(summary = "Lista todos os clientes", description = "A resposta lista os dados dos clientes id, nome, cpf e email.")
+    @ApiResponses(value = {@ApiResponse(responseCode = "200", content = {
+            @Content(schema = @Schema(implementation = Usuario.class), mediaType = "application/json")}, description = "Retorna todos os clientes"),
+            @ApiResponse(responseCode = "401", description = "Erro de autenticação"),
+            @ApiResponse(responseCode = "403", description = "Não há permissão para acessar o recurso"),
+            @ApiResponse(responseCode = "404", description = "Recurso não encontrado"),
+            @ApiResponse(responseCode = "505", description = "Exceção interna da aplicação")})
+
     @GetMapping
     public ResponseEntity<List<UsuarioResponseDTO>> listar() {
         return ResponseEntity.ok(service.listar());
     }
 
-//    @GetMapping("/{id}")
-//    public ResponseEntity<UsuarioResponseDTO> buscarPorId(@PathVariable Long id) {
-//        return ResponseEntity.ok(service.buscarPorId(id));
-//    }
+    @Operation(summary = "Cadastra um cliente", description = "A resposta lista os dados dos clientes id, nome, cpf e email.")
+    @ApiResponses(value = {@ApiResponse(responseCode = "201", content = {
+            @Content(schema = @Schema(implementation = Usuario.class), mediaType = "application/json")}, description = "Retorna todos os clientes"),
+            @ApiResponse(responseCode = "401", description = "Erro de autenticação"),
+            @ApiResponse(responseCode = "403", description = "Não há permissão para acessar o recurso"),
+            @ApiResponse(responseCode = "404", description = "Recurso não encontrado"),
+            @ApiResponse(responseCode = "505", description = "Exceção interna da aplicação")})
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public UsuarioResponseDTO inserir(@RequestBody UsuarioRequestDTO usuario) {
         return service.inserir(usuario);
     }
-
-//    @PostMapping("/lista")
-//    @ResponseStatus(HttpStatus.CREATED)
-//    public List<UsuarioResponseDTO> inserirLista(@RequestBody List<Usuario> lista) {
-//        return service.inserirLista(lista);
-//    }
-//
-//    @PutMapping("/atualizar/{id}")
-//    public ResponseEntity<UsuarioResponseDTO> atualizar(@PathVariable Long id, @RequestBody Usuario usuario) {
-//        return ResponseEntity.ok(service.atualizar(id, usuario));
-//    }
-//
-//    @DeleteMapping("/deletar/{id}")
-//    public ResponseEntity<Void> deletar(@PathVariable Long id) {
-//        service.deletar(id);
-//        return ResponseEntity.noContent().build();
-//    }
 }

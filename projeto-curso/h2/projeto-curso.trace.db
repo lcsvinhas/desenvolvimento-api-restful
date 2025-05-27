@@ -1,0 +1,12 @@
+2025-05-26 19:24:54.397485-03:00 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "SELECT * FROM FUNCIONARIO WHERE SALARIO BETWEEN(1000,2000)[*]"; expected "[, ., ::, AT, FORMAT, *, /, %, +, -, ||, AND"; SQL statement:
+SELECT * FROM FUNCIONARIO WHERE SALARIO BETWEEN(1000,2000) [42001-232]
+2025-05-26 20:32:54.696631-03:00 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "SELECT * FROM FUNCIONARIO WHERE NOME ILIKE [*]%ar%"; SQL statement:
+SELECT * FROM FUNCIONARIO WHERE NOME ILIKE %ar% [42000-232]
+2025-05-26 20:33:01.003665-03:00 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "SELECT * FROM FUNCIONARIO WHERE NOME ILIKE [*]%ar%"; SQL statement:
+SELECT * FROM FUNCIONARIO WHERE NOME ILIKE %ar% [42000-232]
+2025-05-26 20:33:09.488763-03:00 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "SELECT * FROM FUNCIONARIO WHERE NOME ilike [*]%ar%"; SQL statement:
+SELECT * FROM FUNCIONARIO WHERE NOME ilike %ar% [42000-232]
