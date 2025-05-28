@@ -2,6 +2,7 @@ package org.serratec.backend.dto;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
 import org.serratec.backend.entity.Usuario;
 import org.serratec.backend.entity.UsuarioPerfil;
 
@@ -15,6 +16,9 @@ public class UsuarioRequestDTO {
     private String email;
     @NotBlank
     private String senha;
+    @NotBlank
+    @Pattern(regexp = "^\\d{8}$", message = "Somente números e até 8 caracteres")
+    private String cep;
 
     private Set<UsuarioPerfil> perfis = new HashSet<>();
 
@@ -25,6 +29,27 @@ public class UsuarioRequestDTO {
         this.nome = usuario.getNome();
         this.email = usuario.getEmail();
         this.senha = usuario.getSenha();
+    }
+
+
+    public UsuarioRequestDTO(String nome, String email, String senha, String cep, Set<UsuarioPerfil> perfis) {
+        this.nome = nome;
+        this.email = email;
+        this.senha = senha;
+        this.cep = cep;
+        this.perfis = perfis;
+    }
+
+    public @Pattern(regexp = "^\\d{8}$", message = "somente números e até 8 caracteres") String getCep() {
+        return cep;
+    }
+
+    public void setCep(@Pattern(regexp = "^\\d{8}$", message = "somente números e até 8 caracteres") String cep) {
+        this.cep = cep;
+    }
+
+    public void setPerfis(Set<UsuarioPerfil> perfis) {
+        this.perfis = perfis;
     }
 
     public Set<UsuarioPerfil> getPerfis() {

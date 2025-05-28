@@ -5,8 +5,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import org.serratec.backend.config.MailConfig;
 import org.serratec.backend.dto.UsuarioRequestDTO;
 import org.serratec.backend.dto.UsuarioResponseDTO;
+import org.serratec.backend.entity.Endereco;
 import org.serratec.backend.entity.Usuario;
 import org.serratec.backend.entity.UsuarioPerfil;
 import org.serratec.backend.exception.UsuarioException;
@@ -32,6 +34,12 @@ public class UsuarioService {
     @Autowired
     private BCryptPasswordEncoder passwordEncoder;
 
+    @Autowired
+    private MailConfig mailConfig;
+
+    @Autowired
+    private EnderecoService enderecoService;
+
     public List<UsuarioResponseDTO> listar() {
         List<Usuario> usuarios = repository.findAll();
         List<UsuarioResponseDTO> usuariosDTO = new ArrayList<>();
@@ -45,6 +53,10 @@ public class UsuarioService {
     @Transactional
     public UsuarioResponseDTO inserir(UsuarioRequestDTO usuario) {
         Optional<Usuario> u = repository.findByEmail(usuario.getEmail());
+        enderecoService.buscar(usuario.getCep());
+
+        Endereco endereco = enderecoService.buscarEndereco(usuario.getCep());
+
         if (u.isPresent()) {
             throw new UsuarioException("Email já cadastrado!");
         }
@@ -53,14 +65,18 @@ public class UsuarioService {
         usuarioEntity.setEmail(usuario.getEmail());
         usuario.setSenha(passwordEncoder.encode(usuario.getSenha()));
         usuarioEntity.setSenha(usuario.getSenha());
+        usuarioEntity.setEndereco(endereco);
 
         for (UsuarioPerfil up : usuario.getPerfis()) {
             up.setPerfil(perfilService.buscar(up.getPerfil().getId()));
             up.setUsuario(usuarioEntity);
             up.setDataCriacao(LocalDate.now());
         }
+
         usuarioEntity = repository.save(usuarioEntity);
         usuarioPerfilRepository.saveAll(usuario.getPerfis());
+
+//        mailConfig.enviar(usuarioEntity.getEmail(), "Confirmação de cadastro", usuario.toString());
 
         return new UsuarioResponseDTO(usuarioEntity.getId(), usuarioEntity.getNome(), usuarioEntity.getEmail());
     }

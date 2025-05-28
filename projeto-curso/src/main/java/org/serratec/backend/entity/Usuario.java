@@ -19,6 +19,22 @@ public class Usuario {
     @OneToMany(mappedBy = "id.usuario")
     private Set<UsuarioPerfil> usuarioPerfis = new HashSet<>();
 
+    @ManyToOne
+    @JoinColumn(name = "id_endereco")
+    private Endereco endereco;
+
+    public void setUsuarioPerfis(Set<UsuarioPerfil> usuarioPerfis) {
+        this.usuarioPerfis = usuarioPerfis;
+    }
+
+    public Endereco getEndereco() {
+        return endereco;
+    }
+
+    public void setEndereco(Endereco endereco) {
+        this.endereco = endereco;
+    }
+
     public Set<UsuarioPerfil> getUsuarioPerfis() {
         return usuarioPerfis;
     }
