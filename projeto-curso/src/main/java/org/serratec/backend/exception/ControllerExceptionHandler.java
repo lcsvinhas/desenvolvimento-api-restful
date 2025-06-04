@@ -48,4 +48,14 @@ public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
     protected ResponseEntity<Object> handleUsuarioException(UsuarioException ex) {
         return ResponseEntity.badRequest().body(ex.getMessage());
     }
+
+    @ExceptionHandler(FotoException.class)
+    protected ResponseEntity<Object> handleFotoException(FotoException ex) {
+        return ResponseEntity.badRequest().body(ex.getMessage());
+    }
+
+    @ExceptionHandler(FuncionarioException.class)
+    protected ResponseEntity<Object> handleFuncionarioException(FuncionarioException ex) {
+        return ResponseEntity.badRequest().body(ex.getMessage());
+    }
 }
